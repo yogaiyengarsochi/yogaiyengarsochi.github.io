@@ -95,16 +95,22 @@ h4 {
 .skip-link {
   position: absolute;
   left: 1rem;
-  top: -5rem;
+  top: 0;
   padding: 0.75rem 1rem;
   background: #111;
   color: #fff;
   border-radius: 999px;
   z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-140%);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.skip-link:focus {
-  top: 1rem;
+.skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(1rem);
 }
 
 .page-chrome {
