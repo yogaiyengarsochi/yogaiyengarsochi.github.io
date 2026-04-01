@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Отзывы учеников о занятиях лечебной гимнастикой в Сочи.">
@@ -35,6 +36,8 @@
       })(document, window);
   </script>
   
+  <script src="https://smartcaptcha.cloud.yandex.ru/captcha.js" defer></script>
+
 </head>
 <body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -101,9 +104,9 @@
   </div>
 
   <div class="feedback-submit feedback-submit--composer">
-    <form class="feedback-form feedback-form--composer" name="gymnastics-feedback" method="POST" action="/feedback-submitted.html" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="gymnastics-feedback">
+    <form class="feedback-form feedback-form--composer" name="gymnastics-feedback" method="POST" action="https://functions.yandexcloud.net/d4eqiv0mcnjniquhmq5q" data-feedback-form data-feedback-endpoint="https://functions.yandexcloud.net/d4eqiv0mcnjniquhmq5q" data-feedback-success-url="/feedback-submitted.html" data-smartcaptcha-sitekey="ysc1_s7ZHlQWK0ehuimCKubuik0CXosjxrGeniDiwa6qD9eb15f6a" data-smartcaptcha-language="ru">
       <input type="hidden" name="feedback_type" value="gymnastics">
+      <input type="hidden" name="smart-token" value="">
 
       <label class="feedback-form__honeypot">
         <span>Не заполняйте это поле</span>
@@ -113,7 +116,7 @@
       <div class="feedback-composer">
         <label class="feedback-field feedback-field--composer">
           <span class="visually-hidden">Комментарий</span>
-          <textarea name="message" rows="3" minlength="100" maxlength="1000" required data-feedback-message placeholder="Присоединиться к обсуждению..." disabled></textarea>
+          <textarea name="message" rows="3" minlength="100" maxlength="1000" required data-feedback-field data-feedback-message placeholder="Присоединиться к обсуждению..." disabled></textarea>
           <div class="feedback-composer__meta feedback-composer__meta--under">
             <small class="feedback-field__hint">Минимум 100 символов, максимум 1000.</small>
             <small class="feedback-field__count" data-feedback-counter aria-live="polite">0 / 1000</small>
@@ -123,15 +126,28 @@
         <div class="feedback-composer__footer">
           <label class="feedback-field feedback-field--name">
             <span class="visually-hidden">Имя</span>
-            <input type="text" name="name" maxlength="80" required placeholder="Имя" disabled>
+            <input type="text" name="name" maxlength="80" required data-feedback-field placeholder="Имя" disabled>
           </label>
 
-          <button class="feedback-submit__button" type="submit" disabled>Комментарий</button>
+          <button class="feedback-submit__button" type="submit" data-feedback-submit disabled>Комментарий</button>
         </div>
+      </div>
+
+      <div class="feedback-captcha">
+        <div style="height: 100px" id="gymnastics-feedback-captcha" class="smart-captcha feedback-captcha__widget" data-sitekey="ysc1_s7ZHlQWK0ehuimCKubuik0CXosjxrGeniDiwa6qD9eb15f6a" data-hl="ru" data-callback="onFeedbackCaptchaSuccess"></div>
+        <p class="feedback-submit__status" data-feedback-status aria-live="polite">
+          
+          Загрузка антиспам-проверки...
+          
+        </p>
       </div>
     </form>
 
-    <p class="feedback-submit__note">Отзывы проходят ручную проверку и затем публикуются на этой странице.</p>
+    <noscript>
+      <p class="feedback-submit__status" data-state="error">Для отправки отзыва нужен JavaScript.</p>
+    </noscript>
+
+    <p class="feedback-submit__note">Отзывы проходят ручную проверку, затем письмо разбирается вручную и только после этого текст публикуется на странице.</p>
   </div>
 
   <div class="feedback-published">

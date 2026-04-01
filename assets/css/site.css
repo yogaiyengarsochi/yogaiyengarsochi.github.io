@@ -675,6 +675,34 @@ h4 {
   font-size: 0.88rem;
 }
 
+.feedback-captcha {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0.75rem;
+}
+
+.feedback-captcha__widget {
+  min-height: 100px;
+}
+
+.feedback-submit__status {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.feedback-submit__status:empty {
+  display: none;
+}
+
+.feedback-submit__status[data-state="success"] {
+  color: #1f6e43;
+}
+
+.feedback-submit__status[data-state="error"] {
+  color: #ab3e34;
+}
+
 .feedback-composer__meta--under {
   display: flex;
   align-items: center;
@@ -962,6 +990,17 @@ h4 {
 
   .feedback-form__grid {
     grid-template-columns: 1fr;
+  }
+
+  .feedback-composer__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feedback-field--name {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: 100%;
   }
 
   .hero-side {
