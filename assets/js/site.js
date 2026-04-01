@@ -46,9 +46,11 @@ const setFeedbackFieldsDisabled = (fields, disabled) => {
   });
 };
 
+const getFeedbackTokenField = (form) => form.querySelector('input[name="smart-token"]');
+
 const resetFeedbackCaptcha = (state) => {
   state.token = "";
-  const tokenField = state.form.elements["smart-token"];
+  const tokenField = getFeedbackTokenField(state.form);
 
   if (tokenField) {
     tokenField.value = "";
@@ -70,13 +72,13 @@ const refreshFeedbackSubmitState = (state) => {
 };
 
 const getFeedbackCaptchaToken = (state) => {
-  const tokenField = state.form.elements["smart-token"];
+  const tokenField = getFeedbackTokenField(state.form);
 
   if (tokenField && typeof tokenField.value === "string" && tokenField.value.trim()) {
     return tokenField.value.trim();
   }
 
-  return "";
+  return state.token || "";
 };
 
 const buildFeedbackPayload = (form, token) => ({
@@ -153,13 +155,15 @@ const initFeedbackForms = () => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      state.token = getFeedbackCaptchaToken(state);
+      const token = getFeedbackCaptchaToken(state);
 
-      if (!state.token) {
+      if (!token) {
         setFeedbackStatus(state.status, "Сначала подтвердите, что вы не робот.", "error");
         refreshFeedbackSubmitState(state);
         return;
       }
+
+      state.token = token;
 
       if (!form.reportValidity()) {
         return;
@@ -179,7 +183,7 @@ const initFeedbackForms = () => {
             Accept: "application/json",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(buildFeedbackPayload(form, state.token)),
+          body: JSON.stringify(buildFeedbackPayload(form, token)),
           signal: controller ? controller.signal : undefined
         });
 
@@ -221,7 +225,7 @@ window.onFeedbackCaptchaSuccess = (token) => {
 
   const state = form.__feedbackState;
   state.token = String(token || "").trim();
-  const tokenField = form.elements["smart-token"];
+  const tokenField = getFeedbackTokenField(form);
 
   if (tokenField) {
     tokenField.value = state.token;
